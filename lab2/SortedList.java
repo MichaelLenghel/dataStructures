@@ -6,18 +6,23 @@ import java.util.Random;
         {
             SortedLL list = new SortedLL();
             list.display();
-            
+            //int a[] = new int[5];
+            int[] a = {8, 2, 3, 7, 8, 1, 6, 0, 2, 9, 3, 4};
             int i, x, temp;
             temp = 1;
+
             Random r = new Random();
             
             for(i=0; i<10; ++i) {
-                x = r.nextInt();
-                list.insert(x);
+                //x = r.nextInt();
+
+                list.insert(a[i]);
                 temp = i + 1;
-                System.out.println("Element " + temp);
+                System.out.println("List iteration "+ temp + ": ");
                 list.display();            
-            }//end for  
+            }//end for 
+            list.remove(6); 
+            list.display();  
         }//end main
     }//end class SortedList
 
@@ -38,88 +43,74 @@ class SortedLL
     }//end constructor SortedLL
     
     // this is the crucial method
-    public void insert(int x)
+    public void insert(int value)
     {
-        Node prev, curr;
         Node t = new Node();
-        t.data = x;
+        t.data = value;
         t.next = null;
-
-        prev = curr;
-        curr = this.head.next;
+        Node prev = null;
+        Node curr = head;
         
-
-        //No need to conern ourselves with prev and curr if list is empty
-        if (isEmpty()) 
-        {
-            head = t;
-            tail = t;
-        }
-
-        //Only one element in the list, still cant sayprevious
-        else if(tail == head)
-        {
-            tail = t;
-        }
-
-        //prev.data is null when only one element in the list or when no val for it,
-        // therefore null.data gives null pointer execption
-        while(curr.next != null && t.data > prev.data)
+        while(curr != null && value > curr.data)
         {
             prev = curr;
             curr = curr.next;
+            //he doesn't have curr != null, he has last ele pointing to itself, as will never move passed it
         }
-        //Make link with pre element point to new element and
-        //new element to point the element in front of it
-        prev.next = t;
-        t = curr;
-    }    
 
-    public int remove(int x)
-    {
-        int val = 0;
-
-        if (isEmpty() == false) 
+        //loop wasn't entered, meaning empty
+        if (prev == null)
         {
-            Node prev, curr;
-            Node t = new Node();
-            t.data = x;
-            t.next = null;
-
-            curr = this.head;
-            prev = null;
-
-            while(curr.next != null)
-            {
-                if (t.data == curr.data) 
-                {
-                    //Sets the element b4 current(element we are deleting) to the elemen3t afetr current
-                    //This cuts the link
-                    val = curr.data;
-                    prev = curr.next;
-                    break;
-                }
-                prev = curr;
-                curr = curr.next;
-            }
-        }//end if
+            t.next = head;
+            head = t;
+        }
         else
         {
-            System.out.println("Queue is empty");
-            val = 0;
-        }//end else
-        return(val);
-    }//end remove
+            prev.next = t;
+            t.next = curr;
+        }
+        tail = t;
+    }//end insert    
 
+    public void remove(int value)
+    {
+        Node prev = null;
+        Node curr = head;
+        
+        while(curr != null && value > curr.data)
+        {
+            prev = curr;
+            curr = curr.next;
+            //he doesn't have curr != null, he has last ele pointing to itself, as will never move passed it
+        }
+
+        //loop wasn't entered, meaning empty
+        if (prev == null)
+        {
+           System.out.println("List is empty");
+        }
+
+        //Account for only one element in the list
+        else if(head == tail)
+        {
+            head = null;
+            tail = null;
+        }
+        else
+        {
+            //Curr will be the element we are dealing with, so get element b4, to point to element after curr.
+            prev.next = curr.next;
+        }
+    }
     public void display()
     {
         Node t = head;
-        System.out.println("Head -> ");
+        int i = 1;
         while( t != null) {
-            System.out.println("{0} -> " + t.data);
+            System.out.println(i + ": " + t.data);
             t = t.next;
+            i++;
         }
-        System.out.println("Tail");
     }
 
     public boolean isEmpty()
