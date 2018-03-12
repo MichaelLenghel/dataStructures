@@ -1,18 +1,23 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 // Heap.java
 
 //Note program breaks if size < 100 due to richards array method of looking up numbers
 class Heap {
   private
-	int[] a, hPos;
+	int[] a, hPos, sortedHeap;
 	int N;
+  int sortedCounter;
 	static int maxH = 100;
 
 // two constructors
 public Heap() {
-   N = 0;
+   N = sortedCounter = 0;
    int temp = maxH;
    a = new int[maxH+1];
    hPos = new int[maxH+1];
+   sortedHeap = new int[maxH+1];
    //Initialise hPos with 0s
    while(temp != 0)
    {
@@ -29,10 +34,11 @@ public Heap(int size) {
   }
   else
   {
-    N = 0;
+    N = sortedCounter = 0;
     int temp = maxH;
     a = new int[size + 1];
     hPos = new int[size + 1];
+    sortedHeap = new int[maxH+1];
     //Initialise hPos with 0s
     while(temp != 0)
     {
@@ -106,6 +112,8 @@ public int remove() throws HeapException
 {
   //Assigns element we are deleting
   int v = a[1];
+  sortedHeap[sortedCounter] = v;
+  sortedCounter++;
   //Assign the last element to the top of the heap (Removing the biggest element and decrementing 1)
   a[1] = a[N--]; 
 
@@ -144,38 +152,73 @@ public void printPos()
 
 public static void main(String args[]) 
 {
-   Heap h = new Heap();
-   int r; double x;
+  Heap h = new Heap();
+  int r; double x;
+  BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+  String toPrintOrNotToPrint = ""; 
+  int totalElements = 10;
 
-   // insert random numbers between 0 and 99 into heap
-   for(int i = 1; i <= 10; ++i) 
-   {
-	  x =  (Math.random()*100.0);
+  // insert random numbers between 0 and 99 into heap
+  for(int i = 1; i <= totalElements; ++i) 
+  {
+    x =  (Math.random()*100.0);
     r = (int) x; 
     System.out.println("Inserting " + r);
     h.insert(r);
-	  h.display();
-   }
-   System.out.println("");
-   System.out.println("Largest element is:  " + h.a[1]);
+    h.display();
+  }
+  System.out.println("");
+  System.out.println("Largest element is:  " + h.a[1]);
 
-   h.printPos();
+  h.printPos();
 
   //Will continue to iterate through the list until it is empty
-    while(!h.isEmpty())  
+  while(!h.isEmpty())  
+  {
+    try
     {
-      try
-      {
-        r = h.remove(); 
-        h.display();
-        System.out.println("Successfully removed: " + r); 
-      }
-      catch(HeapException e)
-      {
-        System.out.println(e);
-        e.printStackTrace();
-      }         
-    }//end while	  
+      r = h.remove(); 
+      h.display();
+      System.out.println("Successfully removed: " + r); 
+    }
+    catch(HeapException e)
+    {
+      System.out.println(e);
+      e.printStackTrace();
+    }         
+  }//end while
+
+  /*Outputing sorted heap
+  */
+  System.out.println("Want to print out the sorted elements of the heap? Ans: y/n"); 
+  try
+  {
+    toPrintOrNotToPrint = br.readLine();
+  }
+  catch(IOException e)
+  {
+    System.out.println(e);
+    e.printStackTrace();
+  }    
+
+  char ans = toPrintOrNotToPrint.charAt(0);
+
+  if (ans == 'y' || ans == 'Y') 
+  {
+    for (int index = 0;index < totalElements - 1; index++ ) 
+    {
+      System.out.print(h.sortedHeap[index] + ", ");
+    }
+    System.out.print(h.sortedHeap[totalElements]);
+  }
+  else if(ans == 'n' || ans == 'N')
+  {
+    System.out.println("Exited the program");
+  }
+  else
+  {
+    System.out.println("Invalid option - Gunna print em anyway ^^");
+  }
 }//end main
 
 } // end of Heap class
