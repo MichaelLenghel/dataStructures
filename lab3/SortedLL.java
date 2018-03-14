@@ -44,7 +44,7 @@ public class SortedLL implements insertRemove
     Node tail;
 
     // list constructor 
-    public void SortedLL()
+    public SortedLL()
     {
         Node head = null;
         Node tail = null;

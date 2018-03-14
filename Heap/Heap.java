@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 // Heap.java
 
-//Note program breaks if size < 100 due to richards array method of looking up numbers
+//Note program breaks if size < 100 due to look up array method given
 class Heap {
   private
 	int[] a, hPos, sortedHeap;
