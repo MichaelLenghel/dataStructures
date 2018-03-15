@@ -4,6 +4,7 @@ import java.io.IOException;
 // Heap.java
 
 //Note program breaks if size < 100 due to look up array method given
+//Also - Collisions on hpos are not dealt with properly
 class Heap {
   private
 	int[] a, hPos, sortedHeap;
