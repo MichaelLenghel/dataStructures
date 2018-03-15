@@ -64,6 +64,24 @@ class MyPet {
         }
 }
 
+class Tunes
+{
+    String t;
+    String sT;
+    int num;
+    public Tunes(String t, String sT, int num)
+    {
+        this.t = t;
+        this.sT = sT;
+        this.num = num;
+    }
+
+    public String toString()
+    {
+        return "\nSong title is " + this.t + ", secondary title is " + this.sT + " and number is " + this.num;
+    }
+}
+
 public class StackGeneric
 {
     public static void main( String[] arg){
@@ -89,11 +107,18 @@ public class StackGeneric
         s2.push(new MyPet("Lola", "rat", 1)); 
         s2.push(new MyPet("Felix", "cat", 7));
         s2.display();
-        
+
         MyPet p = s2.pop();
         System.out.println("\nJust popped " + p);
         s2.display(); 
-		
+
+        Stack <Tunes> s3 = new Stack <Tunes>();
+        System.out.println("Stack is created\n");
+
+        s3.push(new Tunes("Boom boom", "Btoom! Btoom!", 1)); 
+        s3.push(new Tunes("Rexxyyyy", "dogyyyyy", 2)); 
+        s3.display();
+        	
     }
 }
 
