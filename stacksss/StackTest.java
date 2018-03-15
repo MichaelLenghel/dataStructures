@@ -1,5 +1,3 @@
-package exceptionStack;
-
 // StackTest.java
 // Linked list implementation of Stack
 

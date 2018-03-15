@@ -20,6 +20,11 @@ public class QueueMain
 	    i = q.dequeue();
 	    System.out.println("Just popped " + i);
 	    q.display();
+
+	    System.out.println("Popping another element: ");
+	    i = q.dequeue();
+	    System.out.println("Just popped " + i);
+	    q.display();
 	    
 	}
 }
@@ -94,7 +99,7 @@ class Queue
 				//cut off the link to currrent (element which we deleted).
 				previous.next = null;
 				//Now we only need to work with tail since there is more than one element, so change tail to pre element and z;
-				current = previous;
+				tail = previous;
 		}//end else
 		return(i);
 	}//end dequeue
