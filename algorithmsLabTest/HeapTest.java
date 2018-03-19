@@ -67,17 +67,31 @@ class Heap
 		if((k * 2) + 1 < N)
 		{
     		//While node at pos k, has a left child node
-    		while(startDistance < dist[k * 2])
+    		while(startDistance < dist[k * 2] || startDistance < dist[k * 2 + 1])
     		{
-                dist[k] = dist[k / 2];
-    			a[k] = a[k * 2];
-                hPos[a[k]] = k;
-    			k = k * 2;
+                if((k * 2) + 1 < N)
+                {
+                    if (dist[k * 2] > dist[k * 2 + 1]) {
+                         dist[k] = dist[k * 2];
+                         a[k] = a[k * 2];
+                         hPos[a[k]] = k;
+                         k = k * 2;
+                    }
+                    else
+                    {
+                        dist[k] = dist[k * 2 + 1];
+                        a[k] = a[(k * 2) + 1];
+                        hPos[a[k]] = k;
+                        k = (k * 2) + 1;
+                    }
+                    
+        			k = k * 2;
+                }
     		}//end while
     		//Finally assig the node we are sifting to its correct position
     		a[k] = v;
             hPos[v] = k; 
-            dist[v] = startDistance;
+            dist[v] = startDistance; // chance from v to k at end
 		}
     }
 
