@@ -1,7 +1,4 @@
-/**Still need to account for bad pivot Planning to maybe use an algorithm accounting for average and median
-Also first element lost in sort :(*/
-
-
+/**Simple quickSort*/
 import java.util.Arrays;
 class QuickSort
 {
@@ -32,16 +29,15 @@ class QuickSort
 	int[] quickSort(int a[], int l, int r)
 	{
 		//Account for bad input
-		if (l >= r) {
-			return a;
+		if (l < r) 
+		{
+			int j = partition (a, l, r);
+
+			//Sort left side (from left index to middle - 1)
+			quickSort(a, l, j - 1);
+			//Sort right side (from right index to middle + 1)
+			quickSort(a, j + 1, r);
 		}
-
-		int j = partition (a, l, r);
-
-		//Sort left side (from left index to middle - 1)
-		quickSort(a, l, j - 1);
-		//Sort right side (from right index to middle + 1)
-		quickSort(a, j + 1, r);
 
 		return a;
 	}
