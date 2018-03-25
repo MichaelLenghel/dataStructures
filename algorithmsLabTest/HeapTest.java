@@ -27,72 +27,44 @@ class Heap
         dist = Arrays.copyOf(_dist, maxSize + 1);
     }
 
-
     public boolean isEmpty() 
     {
         return N == 0;
     }
 
-
     public void siftUp( int k) 
     {
-       int t = a[k];
-       int startDistance = dist[k];
-	   a[0] = Integer.MAX_VALUE;
-	   dist[0] = Integer.MAX_VALUE;
-	   //while( a[k] > a[k / 2]) 
-       while( startDistance > dist[k / 2]) 
-	   {
-        dist[k] = dist[k / 2];
-		a[k] = a[k/2];
-		//Saying hPos[numberDealingWith] = Postion in heap
-		hPos[a[k]] = k;
-		k = k/2;
-	   }
-       //Assign a[k] that we are on the element we originally started inserting
-	   a[k] = t;
-       //Set position of original element to element on
-	   hPos[t] = k; 
-       //Set distance of element on to originalk distance
-       dist[t] = startDistance;
+        int v = a[k];
+        a[0] = 0;
+        dist[0] = 0;
+
+        while( dist[v] < dist[a[k / 2]]) 
+        {
+            //System.out.println("a[k / 2] inside loop = " + a[k / 2]);
+            a[k] = a[k / 2];
+            //Saying hPos[numberDealingWith] = Postion in heap
+            hPos[a[k]] = k;
+            k = k /  2;
+        }
+        a[k] = v;
+        hPos[v] = k;
     }
 
 
     public void siftDown( int k) 
     {
-       //Assign element we will be shifting top v
+        //Assign element we will be shifting top v
 		int v = a[k];
-        int startDistance = dist[k];
-		dist[v] = Integer.MAX_VALUE;
-		if((k * 2) + 1 < N)
+
+		//dist[v] = Integer.MAX_VALUE;
+		//While node at pos k, has a left child node
+		while(dist[v] > dist[a[k * 2]] && N >= (k * 2))
 		{
-    		//While node at pos k, has a left child node
-    		while(startDistance < dist[k * 2] || startDistance < dist[k * 2 + 1])
-    		{
-                if((k * 2) + 1 < N)
-                {
-                    if (dist[k * 2] > dist[k * 2 + 1]) {
-                         dist[k] = dist[k * 2];
-                         a[k] = a[k * 2];
-                         hPos[a[k]] = k;
-                         k = k * 2;
-                    }
-                    else
-                    {
-                        dist[k] = dist[k * 2 + 1];
-                        a[k] = a[(k * 2) + 1];
-                        hPos[a[k]] = k;
-                        k = (k * 2) + 1;
-                    }
-                    
-        			k = k * 2;
-                }
-    		}//end while
-    		//Finally assig the node we are sifting to its correct position
-    		a[k] = v;
-            hPos[v] = k; 
-            dist[v] = startDistance; // chance from v to k at end
-		}
+            a[k] = a[k * 2];
+            k = k * 2;
+		}//end while
+		//Finally assig the node we are sifting to its correct position
+		a[k] = v;
     }
 
 
@@ -131,10 +103,7 @@ class Heap
     {
         dist[index] = priority;
     }
-
 }
-
-
    
 
 public class HeapTest {
@@ -152,6 +121,7 @@ public class HeapTest {
             // insert into heap if not already there
             x = Math.random()*15.0;
             u = (int) x + 1;
+            System.out.println("Variable input = " + u);
 
             if(h.hPos[u] == 0)
             {
@@ -161,9 +131,13 @@ public class HeapTest {
         
         h.display();
 		
-        //h.setDistance(1, 3); h.insert(h.hPos[1]); h.display(); 
+        //change dist[1] = 3; (from 100 -> 3, then check if it went up)
+        h.setDistance(1, 3); 
+        System.out.println(" hPos[1] = " + h.hPos[1]);
+        // //Will insert whatever element is at position 1
+        h.insert(h.hPos[1]); h.display(); 
          
-        h.remove(); h.display();
+        int check = h.remove(); System.out.println("just removed " + check); h.display();
             
     }
     
