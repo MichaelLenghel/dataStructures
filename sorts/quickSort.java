@@ -9,13 +9,18 @@ class QuickSort
 		
 		while(true)
 		{
-			do ++i; while(a[i] <= pivot);
-			do --j; while(a[j] >= pivot);
+			do ++i; while(pivot >= a[i]);
+			do --j; while(pivot <= a[j]);
 			if (i >= j) 
 				break;
 			temp = a[i];
 			a[i] = a[j];
 			a[j] = temp;
+			System.out.println();
+			for(int asdf : a)
+			{
+				System.out.print(asdf + ", ");
+			}
 		}//end while
 
 		//Swap pivot with position of j
@@ -50,22 +55,14 @@ class QuickSort
 
 		int[] sortedArray = q.quickSort(testArray, 0, testArray.length - 1);
 
-		/**if (testArray.equals(sortedArray)) 
-		Returns true if I return the sorted array. this is due to hash function on equals method which is the same
-		since same number of elements and corresponding parts are scattered in the array*/
-		// if (sortedArray[0] == Integer.MIN_VALUE)	
-		// {
-		// 	System.out.print("The array has no elements or input was incorrect");
-		// }
-		//else
-		//{
-			//Iterate and print sortedArray
-			for (i = 0;i < sortedArray.length - 1;i++ ) 
-			{
+		System.out.println();
+		//Iterate and print sortedArray
+		for (i = 0;i < sortedArray.length - 1;i++ ) 
+		{
 
-				System.out.print(" " + sortedArray[i] + ", ");
-			}
-				System.out.print(sortedArray[i]);
+			System.out.print(" " + sortedArray[i] + ", ");
+		}
+			System.out.print(sortedArray[i]);
 		//}
 	}//end main
 }//end class

@@ -61,10 +61,17 @@ class Heap
 		while(dist[v] > dist[a[k * 2]] && N >= (k * 2))
 		{
             a[k] = a[k * 2];
+            hPos[a[k]] = k;
             k = k * 2;
+
+            if (k * 2 > N) 
+            {
+                break;
+            }
 		}//end while
 		//Finally assig the node we are sifting to its correct position
 		a[k] = v;
+        hPos[v] = k;
     }
 
 
@@ -79,7 +86,7 @@ class Heap
     {   
         int v = a[1];
         hPos[v] = 0; // v is no longer in heap
-        //a[N+1] = 0;  // put null node into empty spot
+        a[N+1] = 0;  // put null node into empty spot
         
         a[1] = a[N--];
         siftDown(1);
@@ -132,11 +139,9 @@ public class HeapTest {
         h.display();
 		
         //change dist[1] = 3; (from 100 -> 3, then check if it went up)
-        h.setDistance(1, 3); 
-        System.out.println(" hPos[1] = " + h.hPos[1]);
-        // //Will insert whatever element is at position 1
-        h.insert(h.hPos[1]); h.display(); 
+        // h.setDistance(1, 3); h.insert(h.hPos[1]); h.display();
          
+   
         int check = h.remove(); System.out.println("just removed " + check); h.display();
             
     }

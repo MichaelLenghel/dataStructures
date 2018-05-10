@@ -17,13 +17,14 @@ interface Queue {
 }
 
 class QueueCB implements Queue {
-    private int q[], back, front;
+    private int q[], back, front, size;
     private int qmax;
 
  
     public QueueCB() 
     {
         qmax = 4;
+        size = 0;
         front = back = -1;
         q = new int[qmax];
         //Initialise all elements of array
@@ -40,23 +41,15 @@ class QueueCB implements Queue {
             front ++;
             back++;
             //Assigns q[0] value
-            q[back] = x;    
+            q[back] = x; 
         }
         //IsEmpty prevents us from ever achieving 0, except when buffer is full
         else
         {
-            if ((back + 1) % qmax == 0) 
-            {
-                back = (back + 1) % qmax;
-                q[back] = x;
-            }
-            else
-            {
-                back++;
-                q[back] = x;
-            }
+            back = (back + 1) % qmax;
+            q[back] = x;
         }//end else
-      
+      size++;
     }
   
     public int deQueue()  throws QueueException 
@@ -67,24 +60,10 @@ class QueueCB implements Queue {
         }
         else
         {
-            int temp = q[back];
-            q[back] = Integer.MIN_VALUE;
-            //This means tail is at the last element in the queue
-            if ((back + 1) % qmax == 0)
-            {
-                back--;
-            }
-            //where both elements are at the first position, doesnt count -1, -1 since isEmpty is first
-            //Only brings back to empty, if no extra elements in the circular buffer
-            else if (front == back) 
-            {
-                back--;
-                front--;
-            }
-            else
-            {
-                back--;
-            }
+            int temp = q[front];
+            q[front] = Integer.MIN_VALUE;
+            front = (front + 1) % qmax;
+            size--;
             
             return temp;
         }
@@ -93,17 +72,20 @@ class QueueCB implements Queue {
     public void display()
     {
         for (int i = 0; i < q.length ;i++ ) {
-            //If this value is reached, means we have finished all valid elements, since all aelements after have been popped
             if (q[i] == Integer.MIN_VALUE) 
             {
-                break;
+                //Do nothing
             }
-            System.out.println(" " + q[i] + ", ");
+            else
+            {
+                System.out.println(" " + q[i] + ", ");
+            }
+            
         }
     }
 
     public boolean isEmpty() {
-        return (front == -1 && back == -1);
+        return (size == 0);
     }
 }
 
@@ -113,9 +95,10 @@ class QueueCB implements Queue {
 class CircularQueue {
     public static void main(String[] arg) {
         Queue q1;
+        int i;
         q1 = new QueueCB();
-        
-        for(int i = 1; i < 6; ++i)
+        System.out.println("Enqueues: ");
+        for(i = 1; i < 6; ++i)
         {
             try 
             { 
@@ -129,21 +112,21 @@ class CircularQueue {
             }
         }
         
-        System.out.println("Status of q1: " + isEmpty());
+        System.out.println("Dequeues: ");
         //Popping doesn't work -> and not sure if we pop in a CB from start of array or back of array?
         while(!(q1.isEmpty()))
         {
-
-            System.out.println("Wahdasda");
-            //try 
-            //{ 
-                q1.deQueue();
+            try 
+            { 
+                int temp = q1.deQueue();
+                System.out.println("Just deleted: " + temp);
+                System.out.println("Iteration " + i); i++;
                 q1.display();
-            //}
-            //catch (QueueException e) 
-            //{
-            //    System.out.println("Exception thrown: " + e); 
-            //}
+            }
+            catch (QueueException e) 
+            {
+                System.out.println("Exception thrown: " + e); 
+            }
         }
        
         
